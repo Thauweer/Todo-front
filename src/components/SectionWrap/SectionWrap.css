@@ -1,0 +1,5 @@
+
+
+section.SectionWrap {
+    @apply h-full overflow-auto dark:bg-semi-dark-gray bg-light-gray rounded-md;
+}

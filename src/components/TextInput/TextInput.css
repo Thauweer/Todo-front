@@ -1,0 +1,13 @@
+
+
+div.Input {
+    @apply flex self-start min-w-min justify-center mt-4;
+}
+
+div.Input > div {
+    @apply min-w-min relative mb-3 xl:w-96;
+}
+
+div.Input > div > input {
+    @apply block w-full rounded border-0 py-[0.32rem] px-3 leading-[1.6] outline-none transition-all duration-200 ease-linear motion-reduce:transition-none dark:bg-semi-dark-gray dark:text-light-gray dark:placeholder:text-light-gray placeholder:text-xs;
+}

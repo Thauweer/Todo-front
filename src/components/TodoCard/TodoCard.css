@@ -1,0 +1,32 @@
+
+article.Todo {
+    @apply my-5 mx-2 py-2 px-5 bg-concrete rounded-md dark:bg-dark-gray dark:font-bold;
+}
+
+article.Todo > div {
+    @apply w-full;
+}
+
+article.Todo > div > div {
+    @apply flex flex-row justify-between;
+}
+
+article.Todo > div > p {
+    @apply font-normal mb-5;
+}
+
+article.Todo > div > div > h1 {
+    @apply font-semibold mb-2;
+}
+
+article.Todo > div > div > span {
+    @apply text-xs font-light tracking-wider;
+}
+
+article.Todo > div.ButtonWrap {
+    @apply flex justify-end;
+}
+
+article.Todo > span {
+    @apply flex justify-end gap-3; 
+}

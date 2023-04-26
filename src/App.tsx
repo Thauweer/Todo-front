@@ -1,32 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import ClockSection from './screens/ClockSection'
+import TodoSection from './screens/TodoSection'
+import SheduleSection from './screens/SheduleSection'
+
+import TodoModal from './components/modals/TodoModal'
+import AuthModal from './components/modals/AuthModal'
+
+import { useGetAllTodoMutation } from './features/api/todo.api'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [ getAllTodo, result] = useGetAllTodoMutation({
+    fixedCacheKey: 'get_all_todos'
+  })
+  
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <TodoModal updateTodos={() => getAllTodo('')}/>
+      <AuthModal updateTodos={() => getAllTodo('')}/>
+      <div className="wrap flex flex-row h-screen dark:bg-dark-gray dark:text-white bg-light-beige py-5 px-10">
+        <ClockSection />
+        <div className="wrap flex flex-row w-full mx-5">
+          <TodoSection />
+          <SheduleSection />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
