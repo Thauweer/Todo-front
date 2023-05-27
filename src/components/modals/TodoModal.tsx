@@ -6,7 +6,7 @@ import ModalWrap from './ModalWrap'
 
 import useTypedSelector from '@/hooks/useTypedSelector'
 import useAction from '@/hooks/useAction'
-import { useCreateTodoMutation, useUpdateTodoMutation } from '@/features/api/todo.api'
+import { createTodo, updateTodo } from '@/api/Todo.api'
 
 type Props = {
     updateTodos: () => void
@@ -22,8 +22,6 @@ const TodoModal:FC<Props> = ({updateTodos}) => {
         setDescTodo,
         clearTodoModal } = useAction()
     const { app } = useTypedSelector(state => state)
-    const [createTodo, resultCreate] = useCreateTodoMutation()
-    const [updateTodo, resultUpdate] = useUpdateTodoMutation()
 
     const checkTodoArgs = () => (!!app.todoModal.title && !!app.todoModal.description)
     

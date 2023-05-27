@@ -15,7 +15,7 @@ const SwitchThemeButton = memo(() => {
     }
 
     return (
-        <div className="w-full flex justify-center mt-5" onClick={clickHandler}>
+        <div className="w-full flex justify-center mt-5 cursor-pointer" onClick={clickHandler}>
             {dark ?  <BsSun size={24}/> : <BsFillMoonStarsFill size={24}/> }
         </div>
     )

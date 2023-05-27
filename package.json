@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npx vite -p 4000",
+    "dev": "npx vite --port=4000",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

@@ -3,37 +3,43 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITodo } from "@/interfaces/ITodo";
 import { IImportance } from "@/interfaces/IImportance.enum";
 
-const initialTodo: ITodo = {
-    id: 0,
-    title: '',
-    description: '',
-    color: '',
-    time: 0,
-    planned_time: '',
-    category: '',
-    importance: [IImportance.Secondary]
+const initializeTodo: () => ITodo = () => {
+    return {
+        id: 0,
+        title: '',
+        description: '',
+        color: '',
+        time: 0,
+        planned_time: '',
+        category: '',
+        importance: [IImportance.Secondary]
+    }
 }
 
-const initialUser = {
-    isAuthorized: !!localStorage.getItem("token"),
-    photoLink: '',
-    token: localStorage.getItem("token"),
-    name: localStorage.getItem("name"),
-    login: '',
-    password: ''
+const initializeUser = () => {
+    return {
+        isAuthorized: !!localStorage.getItem("token"),
+        photoLink: '',
+        token: localStorage.getItem("token"),
+        name: localStorage.getItem("name"),
+        login: '',
+        password: ''
+    }
 }
 
-const initialState = {
-    showTodoModal: false,
-    todoModalOption: 0, // 0 - create todo, 1 - update todo
-    showAuthModal: false,
-    todoModal: initialTodo,
-    user: initialUser
+const initializeState = () => {
+    return {
+        showTodoModal: false,
+        todoModalOption: 0, // 0 - create todo, 1 - update todo
+        showAuthModal: false,
+        todoModal: initializeTodo(),
+        user: initializeUser()
+    }
 }
 
 const appSlice = createSlice({
     name: 'app',
-    initialState: initialState,
+    initialState: initializeState(),
     reducers: {
         toggleShowCreateTodoModal: (state) => {
             state.showTodoModal = !state.showTodoModal
@@ -44,12 +50,12 @@ const appSlice = createSlice({
         },
         closeTodoModal: (state) => {
             state.showTodoModal = false
-            state.todoModal = initialTodo
+            state.todoModal = initializeTodo()
             state.todoModalOption = 0
         },
         toggleShowAuth: (state) => {
-            state.showAuthModal = 
-            !state.showAuthModal
+            state.showAuthModal =
+                !state.showAuthModal
         },
         setTitleTodo: (state, action: PayloadAction<string>) => {
             state.todoModal.title = action.payload
@@ -84,20 +90,20 @@ const appSlice = createSlice({
             state.user.name = action.payload
             localStorage.setItem("name", action.payload)
         },
-        setTodo: (state, action: PayloadAction<ITodo>) =>{
+        setTodo: (state, action: PayloadAction<ITodo>) => {
             state.todoModal = action.payload
         },
         logout: (state) => {
-            state.user.isAuthorized = false
             localStorage.removeItem("token")
             localStorage.removeItem("name")
+            state.user = initializeUser()
         },
         clearLoginAndPassword: (state) => {
             state.user.login = ''
             state.user.password = ''
         },
         clearTodoModal: (state) => {
-            state.todoModal = initialState.todoModal
+            state.todoModal = initializeTodo()
         },
     }
 })

@@ -7,23 +7,25 @@ import Button from '../Button/Button'
 import useTypedSelector from '@/hooks/useTypedSelector'
 import useAction from '@/hooks/useAction'
 
-import { login, registrate, response } from '@/auth/Authentification'
+import { login, registration, response } from '@/api/Authorization.api'
 
 type Props = {
     updateTodos: () => void
 }
 
-const AuthModal:FC<Props> = (props:Props) => {
+const AuthModal: FC<Props> = (props: Props) => {
     const { showAuthModal, user } = useTypedSelector(state => state.app)
     const { toggleShowAuth: showAuth, setLogin, setPassword, setName, setToken, clearLoginAndPassword } = useAction()
     const [resultQuery, setResultQuery] = useState<response>()
-    
+    const [isLoginRequest, setIsLoginRequest] = useState(true)
+
     const handleLoginClick = () => {
+        const request = isLoginRequest ? login : registration
         if (user.login && user.password) {
-            login(user.login, user.password).then(data => {
+            request(user.login, user.password).then(data => {
                 setResultQuery(data)
                 setName(data.username)
-                setToken(data.access_token)
+                setToken(data.token)
                 props.updateTodos()
             })
         }
@@ -38,16 +40,24 @@ const AuthModal:FC<Props> = (props:Props) => {
 
     return (
         <ModalWrap isShow={showAuthModal} showModal={showAuth}>
-            <TextInput placeholder='Введите логин:' handler={setLogin} value={user.login}/>
-            <TextInput placeholder='Введите пароль:' handler={setPassword} value={user.password}/>
+            <div className="dark:text-white flex flex-row justify-between">
+                <h1 onClick={() => setIsLoginRequest(true)} className={`${isLoginRequest ? 'underline' : ''}  cursor-pointer`}>
+                    Вход
+                </h1>
+                <h1 onClick={() => setIsLoginRequest(false)} className={`${!isLoginRequest ? 'underline' : ''} cursor-pointer`}>
+                    Регистрация
+                </h1>
+            </div>
+            <TextInput placeholder='Введите логин:' handler={setLogin} value={user.login} />
+            <TextInput placeholder='Введите пароль:' handler={setPassword} value={user.password} />
             <div className='flex justify-end mt-4'>
-            <Button handler={handleLoginClick}>Войти</Button>
+                <Button handler={handleLoginClick}>Войти</Button>
 
             </div>
             {
-                resultQuery ?
+                user.name ?
                     (<p className='mt-4'>
-                        {"Добро пожаловать, " + resultQuery.username}
+                        {"Добро пожаловать, " + user.name}
                     </p>) : null
             }
         </ModalWrap>
